@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>stemisa.webui</title>
+    <script type="text/javascript">
+        (function () {
+            // Workaround for some deployments that use the /ISA-STEM directory
+            var base = document.createElement('base');
+
+            if (window.location.pathname.startsWith("/ISA-STEM-Host")) {
+                base.href = '/ISA-STEM-Host/';
+            }
+            else if (window.location.pathname.startsWith("/ISA-STEM")) {
+                base.href = '/ISA-STEM/';
+            }
+            else {
+                base.href = '/';
+            }
+            document.head.prepend(base);
+        })();
+    </script>
+    <link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="stemisa.webui.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+
+    <style type="text/css">
+        .monaco-editor-container { /* for all editor instances */
+            height: 200px;
+        }
+    </style>
+
+    <script src="_content/BlazorMonaco/jsInterop.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>
