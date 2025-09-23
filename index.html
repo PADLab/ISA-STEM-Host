@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>stemisa.webui</title>
+	<!-- TODO look into swapping this with a static download in wwwroot -->
+	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // Workaround for some deployments that use the /ISA-STEM directory
+            var base = document.createElement('base');
+
+            if (window.location.pathname.startsWith("/ISA-STEM-Host")) {
+                base.href = '/ISA-STEM-Host/';
+            }
+            else if (window.location.pathname.startsWith("/ISA-STEM")) {
+                base.href = '/ISA-STEM/';
+            }
+            else {
+                base.href = '/';
+            }
+            document.head.prepend(base);
+        })();
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XYN335B9KW"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-XYN335B9KW');
+    </script>
+
+    <!-- Send console error messages to Google analytics-->
+    <script type="text/javascript">
+        if (window.console && console.error) {
+            var ce = console.error;
+            console.error = function () {
+                ce.apply(this, arguments);
+                gtag('event', 'exception', {
+                    'description': arguments[0],
+                    'error_message': arguments[0],
+                    'stack_trace': 'unknown',
+                    'fatal': false   // set to true if the error is fatal
+                });
+            }
+        }
+    </script>
+
+	<script type="text/javascript">
+		function RenderMemoryRow(element, address) {
+			// Theoretically ItemSize is set to 32 in Components/MemoryView.razor so this should be 31+1 but
+            // For some reason chrome changes the border height to <> 1px. Maybe be related to Zoom logic
+            // We divide by two because we display words (2 bytes)
+            let pizelOffsetFactor = element.rows[3].getBoundingClientRect().height / 2;
+			let offset = parseInt(address, 16) * pizelOffsetFactor;
+			element.parentNode.scrollTo(0, offset);
+		}
+	</script>
+
+    <link href="_content/Microsoft.FluentUI.AspNetCore.Components/css/reboot.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link href="stemisa.webui.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+
+    <style type="text/css">
+        .monaco-editor-container { /* for all editor instances */
+            height: 200px;
+        }
+    </style>
+
+    <script src="_content/BlazorMonaco/jsInterop.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/loader.js"></script>
+    <script src="_content/BlazorMonaco/lib/monaco-editor/min/vs/editor/editor.main.js"></script>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>
